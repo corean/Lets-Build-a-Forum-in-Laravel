@@ -2,32 +2,36 @@
 http://laracasts.com/series/lets-build-a-forum-with-laravel
 
 참고 코드
+```php
+/* post 처리후 이동페이지 검사 */
+$response = $this->post('/threads', $thread->toArray());
+$this->get($response->headers->get('location'));
+```
+```php        
+//app/Exceptions/Handler.php
 
-    /* post 처리후 이동페이지 검사 */
-    $response = $this->post('/threads', $thread->toArray());
-    $this->get($response->headers->get('location'));
+/* 테스트시 전체 html rendering 하지 않게 */
+if (app()->environment() === 'testing') throw $exception;
+```
+```php        
+//tests/Feature/ReadThreadsTest.php
 
-    //app/Exceptions/Handler.php
-    
-    /* 테스트시 전체 html rendering 하지 않게 */
-    if (app()->environment() === 'testing') throw $exception;
-
-    //tests/Feature/ReadThreadsTest.php
-    
-    /* __construt() 와 같음. 부도 클래스의 상속받아 확장 */
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->thread = factory(Thread::class)->create();
+/* __construt() 와 같음. 부도 클래스의 상속받아 확장 */
+protected function setUp()
+{
+    parent::setUp();
+    $this->thread = factory(Thread::class)->create();
     }
-
-    $channel->exists /* Model의 결과값이 있는지*/
-    $channel->exists() /* Model의 Instance가 있는지 */
-
-    \View::composer('*', function ($view) {
-    	  $view->with('channels', Channel::all());
-    });
-
+```
+```php        
+$channel->exists /* Model의 결과값이 있는지*/
+$channel->exists() /* Model의 Instance가 있는지 */
+```
+```php        
+\View::composer('*', function ($view) {
+      $view->with('channels', Channel::all());
+});
+```
 테스트 관련 메소드
 
 - Feature
@@ -41,15 +45,17 @@ http://laracasts.com/series/lets-build-a-forum-with-laravel
     - `assertCount(int, $mixed)` : 해당 $mixed의 갯수가 int 개수인지 비교
     - `assertTrue($channel→threads→contains($thread)` : 관계 모델일때 해당 데이타가 있는지
 
-    phpstorm
+phpstorm
 
-    - option + space : 선언된 파일 인스턴트 열기
-    - command + F12 : 파일 구조 (method list)
+- option + space : 빠른 팝업 메뉴
+- command + F12 : 파일 구조 (method list)
 
-    추상클래스를 사용하는 이유는 인스턴스를 만들지 않을 부모 클래스라는 의미.
+추상클래스를 사용하는 이유는 인스턴스를 만들지 않을 부모 클래스라는 의미.
+추상메소드가 있다면 반드시 구현해야 한다.
 
-    추상메소드가  있다면 반드시 구현해야 한다.
+ep.15 refactoring - filter를 통한 리펙토링 (중요)
 
-    ep.15 refactoring - filter를 통한 리펙토링
+---
 
-    2018-12-02 ~ep.15
+2018-12-02 ~ep. 152
+018-12-04 ep. 16
