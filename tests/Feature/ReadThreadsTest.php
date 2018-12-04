@@ -59,12 +59,15 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function 사용자가_포럼글을_댓글순으로_필터링할_수_있는지()
     {
+        $threadWithTwoReply = create('App\Thread');
+        create('App\Reply', [ 'thread_id' => $threadWithTwoReply->id], 2);
+    
         $threadWithThreeReply = create('App\Thread');
         create('App\Reply', [ 'thread_id' => $threadWithThreeReply->id], 3);
-        $threadWithTwoReply = create('App\Thread');
-        create('App\Reply', [ 'thread_id' => $threadWithThreeReply->id], 2);
+    
         $threadWithNoneReply = create('App\Thread');
-        $response = $this->getJson('/threads/?popular=1')->json();
-        $this->assertEquals([3,2,0], $response->arrayColumn('replies'));
+        
+        $response = $this->getJson('/threads?popular=1')->json();
+        $this->assertEquals([3,2,0], array_column($response, 'replies_count'));
     }
 }

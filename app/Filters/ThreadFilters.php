@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ThreadFilters extends Filters {
     
-    protected $filters = ['by', 'title'];
+    protected $filters = ['by', 'title', 'popular'];
     
     /**
      * @param string $username
@@ -22,5 +22,11 @@ class ThreadFilters extends Filters {
     protected function title($title)
     {
         return $this->builder->where('title', 'like', '%'. $title . '%');
+    }
+
+    protected function popular()
+    {
+        $this->builder->getQuery()->order = [];
+        return $this->builder->orderBy('replies_count', 'desc');
     }
 }

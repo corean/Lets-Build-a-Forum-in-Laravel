@@ -2,11 +2,20 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
     protected $guarded = [];
+    
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('replies_count', function (Builder $builder) {
+            $builder->withCount('replies');
+        });
+    }
     
     public function path()
     {
