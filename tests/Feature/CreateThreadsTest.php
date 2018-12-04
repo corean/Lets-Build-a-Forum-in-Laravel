@@ -29,7 +29,42 @@ class CreateThreadsTest extends TestCase
     {
         $this->SignIn();
         $thread = make('App\Thread');
-        $this->post('/threads', $thread->toArray());
-        $this->get('/threads')->assertSee($thread->title)->assertSee($thread->body);
+        $response = $this->post('/threads', $thread->toArray());
+        $this->get($response->headers->get('location'))
+            ->assertSee($thread->title)
+            ->assertSee($thread->body);
+    }
+    
+    /** @test */
+    function 포럼글쓰기중_제목이_있는지()
+    {
+        $this->publishThread(['title'=>null])->assertSessionHasErrors('title');
+    }
+    
+    /** @test */
+    function 포럼글쓰기중_내용이_있는지()
+    {
+        $this->publishThread(['body'=>null])->assertSessionHasErrors('body');
+    }
+    
+    /** @test */
+    function 포럼글쓰기중_채널id가_있는지()
+    {
+        factory('App\Channel', 2)->create();
+        $this->publishThread(['channel_id'=>null])->assertSessionHasErrors('channel_id');
+        $this->publishThread(['channel_id'=>999])->assertSessionHasErrors('channel_id');
+    }
+    
+    /**
+     * @param $overrides
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    function publishThread(array $overrides)
+    {
+        $this->withExceptionHandling()->signIn();
+    
+        $thread = make('App\Thread', $overrides);
+        return $this->post('/threads', $thread->toArray());
+        
     }
 }

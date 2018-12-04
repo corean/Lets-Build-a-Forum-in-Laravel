@@ -2,10 +2,10 @@
 
 //factory(Thread::class)->make()
 
-function make($class, $attribues = []) {
-    return factory($class)->make($attribues);
+function make($class, $attributes = [], $times = null) {
+    return factory($class, $times)->make($attributes);
 }
 
-function create($class, $attribues = []) {
-    return factory($class)->create($attribues);
+function create($class, $attributes = [], $times = null) {
+    return factory($class, $times)->create($attributes);
 }
