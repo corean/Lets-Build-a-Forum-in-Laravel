@@ -2,9 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Reply;
-use App\Thread;
-use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -16,7 +13,7 @@ class ThreadTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->thread = create(Thread::class);
+        $this->thread = create('App\Thread');
     }
     
     /** @test */
@@ -29,15 +26,15 @@ class ThreadTest extends TestCase
     /** @test */
     function 포럼_작성자가_user_모델인지()
     {
-        $this->assertInstanceOf(User::class, $this->thread->creater);
+        $this->assertInstanceOf('App\User', $this->thread->creater);
     }
     
     /** @test */
     function 포럼의_댓글들을_가지고_있는지()
     {
-        $reply = create(Reply::class, ['thread_id' => $this->thread->id]);
+        $reply = create('App\Reply', ['thread_id' => $this->thread->id]);
         
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $this->thread->replies);
+        $this->assertInstanceOf('\Illuminate\Database\Eloquent\Collection', $this->thread->replies);
     }
     
     /** @test */

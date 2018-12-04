@@ -44,4 +44,14 @@ class ParticipateInForumTest extends TestCase
         // 댓글은 포럼글에 보여주기
         $this->get($this->thread->path())->assertSee($reply->body);
     }
+    
+    /** @test */
+    function 댓글_내용이_있는지() {
+        $this->withExceptionHandling()->signIn();
+        
+        $reply = make('App\Reply', ['body'=>null]);
+        $this->post($this->thread->path() . '/replies', $reply->toArray())
+        ->assertSessionHasErrors('body');
+        
+    }
 }
