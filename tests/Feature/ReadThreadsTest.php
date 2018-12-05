@@ -46,7 +46,7 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function 사용자가_다른_사용자명으로_검색()
     {
-        $this->SignIn(create('App\User', ['name'=>'JohnDoe']));
+        $this->SignIn(create('App\User', ['name' => 'JohnDoe']));
        
         $threadByJohn = create('App\Thread', ['user_id' => auth()->user()->id]);
         $threadNotByJohn = create('App\Thread');

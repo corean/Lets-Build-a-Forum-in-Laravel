@@ -42,7 +42,7 @@ class FavoritesTest extends TestCase
             $this->post('replies/' . $reply->id . '/favorites');
         } catch (\Exception $e) {
             $this->fail('이중등록 방지');
-         }
+        }
         
         $this->assertCount(1, $reply->favorites);
         

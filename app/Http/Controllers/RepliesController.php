@@ -16,9 +16,10 @@ class RepliesController extends Controller
     }
     
     /**
-     * @param $channelId
+     * @param $channel
      * @param Thread $thread
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store($channel, Thread $thread)
     {
@@ -26,7 +27,8 @@ class RepliesController extends Controller
             'body' => 'required'
         ]);
         $thread->addReply([
-                              'body' => request('body'), 'user_id' => auth()->user()->id
+                              'body'    => request('body'),
+                              'user_id' => auth()->user()->id
                           ]);
         return back();
     }

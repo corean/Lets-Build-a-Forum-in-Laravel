@@ -18,7 +18,8 @@ class ThreadsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('auth')
+             ->except('index', 'show');
     }
     
     /**
@@ -46,7 +47,8 @@ class ThreadsController extends Controller
      */
     protected function getTreads(Channel $channel, ThreadFilters $filters)
     {
-        $threads = Thread::latest()->filter($filters);
+        $threads = Thread::latest()
+                         ->filter($filters);
         
         if ($channel->exists) {
             $threads->where('channel_id', $channel->id);
@@ -75,13 +77,15 @@ class ThreadsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title'      => 'required', 'body' => 'required',
+            'title'      => 'required',
+            'body'       => 'required',
             'channel_id' => 'required|exists:channels,id',
         ]);
         $thread = Thread::create([
                                      'user_id'    => auth()->user()->id,
                                      'channel_id' => request('channel_id'),
-                                     'title'      => request('title'), 'body' => request('body'),
+                                     'title'      => request('title'),
+                                     'body'       => request('body'),
                                  ]);
         return redirect($thread->path());
     }
@@ -97,8 +101,9 @@ class ThreadsController extends Controller
     {
 //        return $thread;
         return view('threads.show', [
-            'thread' => $thread,
-            'replies' => $thread->replies()->paginate(5)
+            'thread'  => $thread,
+            'replies' => $thread->replies()
+                                ->paginate(5)
         ]);
     }
     
