@@ -35,12 +35,14 @@ $channel->exists() /* Model의 Instance가 있는지 */
 테스트 관련 메소드
 
 - Feature
+    - 기능이 잘 구현되었는지
     - `$this->get(), $this->post()` : Tests\TestCase를 상속받아 get 이나 post 처리
     - `assertSee($string)` : assert(주장하다) `$stirng`을 볼수 있는지
     - `$this->be(), $this->actionAs()` : 로그인한 유저
     - `$this->expectException()` : 해당 예외가 발생하는지
     - `$this→assertSessionHasErrors('title')` : validation error check
 - Unit
+    - 해당 모델인지, 관계는 잘 맺어져있는지
     - `assertInstanceOf($instance)` : 해당 클래스의 인스턴스인지
     - `assertCount(int, $mixed)` : 해당 $mixed의 갯수가 int 개수인지 비교
     - `assertTrue($channel→threads→contains($thread)` : 관계 모델일때 해당 데이타가 있는지

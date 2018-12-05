@@ -20,7 +20,7 @@ class ThreadsWithReplySeeder extends Seeder
         $threads = factory('App\Thread', 50)->create();
     
         $threads->each(function($thread) {
-            factory('App\Reply', rand(1,5))->create(['thread_id' => $thread->id]);
+            factory('App\Reply', rand(1,15))->create(['thread_id' => $thread->id]);
         });
     }
 }
