@@ -99,7 +99,7 @@ class ThreadsController extends Controller
      */
     public function show($channelID, Thread $thread)
     {
-//        return $thread;
+//        return $thread->load('replies.favorites')->load('replies.owner');
         return view('threads.show', [
             'thread'  => $thread,
             'replies' => $thread->replies()
