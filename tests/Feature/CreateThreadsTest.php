@@ -27,7 +27,7 @@ class CreateThreadsTest extends TestCase
     /** @test */
     function 인증된_사용자가_포럼글_작성()
     {
-        $this->SignIn();
+        $this->signIn();
         $thread = make('App\Thread');
         $response = $this->post('/threads', $thread->toArray());
         $this->get($response->headers->get('location'))

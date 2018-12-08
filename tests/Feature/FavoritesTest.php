@@ -23,7 +23,7 @@ class FavoritesTest extends TestCase
         //유저가 좋Î아요 버튼을 보낸다
         //데이타베이스에 저장
         
-        $this->SignIn(create('App\User', ['name' => 'JohnDoe']));
+        $this->signIn(create('App\User', ['name' => 'JohnDoe']));
         $reply = create('App\Reply');
         
         $this->post('replies/' . $reply->id . '/favorites');
@@ -34,7 +34,7 @@ class FavoritesTest extends TestCase
     /** @test */
     public function 로그인한_유저는_해당_댓글에_한번만_좋아요를_누를수_있다()
     {
-        $this->SignIn(create('App\User', ['name' => 'JohnDoe']));
+        $this->signIn(create('App\User', ['name' => 'JohnDoe']));
         $reply = create('App\Reply');
         
         try {
