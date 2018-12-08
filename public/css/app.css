@@ -8350,3 +8350,64 @@ button.close {
   }
 }
 
+/* debugbar.css */
+
+body div.phpdebugbar {
+  font-size: 10px;
+}
+
+body div.phpdebugbar-header > div > * {
+  font-size: 10px;
+  padding: 3px 5px;
+}
+
+body div.phpdebugbar-header {
+  min-height: 10px;
+  line-height: 12px;
+  padding-left: 35px;
+}
+
+body a.phpdebugbar-tab span.phpdebugbar-badge {
+  vertical-align: 0px;
+  padding: 1px 5px;
+  background: #f4645f;
+  font-size: 9px;
+  color: #fff;
+  border-radius: 10px;
+}
+
+body div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-collector,
+div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-label {
+  font-size: 10px;
+  padding: 2px 4px;
+  margin: 0 2px;
+}
+
+body ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-label,
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-collector {
+  font-size: 9px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  top: 0;
+  left: 10px;
+}
+
+body dl.phpdebugbar-widgets-kvlist dt {
+  width: 150px;
+  min-height: 12px;
+  padding: 7px 5px;
+  line-height: 12px;
+}
+
+body dl.phpdebugbar-widgets-kvlist dd {
+  min-height: 12px;
+  margin-left: 160px;
+  padding: 7px 5px;
+  line-height: 12px;
+}
+
+body div.phpdebugbar-openhandler table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 11px;
+}
+

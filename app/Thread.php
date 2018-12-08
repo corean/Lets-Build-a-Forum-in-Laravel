@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
     protected $guarded = [];
+    protected $with = ['creator', 'channel'];
     
     protected static function boot()
     {
@@ -40,7 +41,8 @@ class Thread extends Model
     
     public function addReply($reply)
     {
-        return $this->replies()->create($reply );
+        return $this->replies()
+                    ->create($reply);
     }
     
     public function channel()
