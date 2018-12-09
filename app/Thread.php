@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+     use RecordsActivity;
+    
     protected $guarded = [];
     protected $with = ['creator', 'channel'];
     
@@ -17,8 +19,8 @@ class Thread extends Model
         static::addGlobalScope('replies_count', function (Builder $builder) {
             $builder->withCount('replies');
         });
-        //포러글 삭제시 댓글도 삭제
-        static::deleting(function($thread) {
+        //포럼글 삭제시 댓글도 삭제
+        static::deleting(function ($thread) {
             $thread->replies()->delete();
         });
     }
