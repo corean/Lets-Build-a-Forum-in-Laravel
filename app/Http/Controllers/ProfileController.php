@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: corean
- * Date: 2018-12-09
- * Time: 00:38
- */
 
 namespace App\Http\Controllers;
 
@@ -15,12 +9,15 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
+    /**
+     * @param User $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show(User $user)
     {
         return view('profiles.show', [
             'profileUser' => $user,
-            'threads'     => $user->threads()
-                                  ->paginate(5)
+            'threads'     => $user->threads()->paginate(5)
         ]);
     }
     
