@@ -13,8 +13,13 @@ class Thread extends Model
     protected static function boot()
     {
         parent::boot();
+        //글로벌 스코프 확장
         static::addGlobalScope('replies_count', function (Builder $builder) {
             $builder->withCount('replies');
+        });
+        //포러글 삭제시 댓글도 삭제
+        static::deleting(function($thread) {
+            $thread->replies()->delete();
         });
     }
     

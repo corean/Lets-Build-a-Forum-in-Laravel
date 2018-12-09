@@ -55,6 +55,26 @@ class CreateThreadsTest extends TestCase
         $this->publishThread(['channel_id'=>999])->assertSessionHasErrors('channel_id');
     }
     
+    /** @test */
+    function 게스트는_포럼글을_삭제할수_없음() {
+        $this->withExceptionHandling();
+        $thread = create('App\Thread');
+        $reply = create('App\Reply', [ 'thread_id' => $thread->id ]);
+        $response = $this->delete($thread->path());
+        $response->assertRedirect('/login');
+    }
+    
+    /** @test */
+    function 포럼글을_삭제할수_있는지() {
+        $this->signIn();
+        $thread = create('App\Thread');
+        $reply = create('App\Reply', [ 'thread_id' => $thread->id ]);
+        $response = $this->json('DELETE', $thread->path());
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+    
     /**
      * @param $overrides
      * @return \Illuminate\Foundation\Testing\TestResponse

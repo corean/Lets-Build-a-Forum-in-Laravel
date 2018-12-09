@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Channel;
 use App\Filters\ThreadFilters;
 use App\Thread;
+use http\Env\Response;
 use Illuminate\Http\Request;
 
 /**
@@ -109,10 +110,28 @@ class ThreadsController extends Controller
     }
     
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param $channel
+     * @param  \App\Thread $thread
+     * @return Illuminate\Http\Response
+     * @throws \Exception
+     */
+    public function destroy($channel, Thread $thread)
+    {
+        $thread->delete();
+        
+        if (request()->wantsJson()) {
+            return response([], 204);
+        }
+        return redirect('/threads');
+    }
+    
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Thread $thread
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function edit(Thread $thread)
     {
@@ -131,15 +150,5 @@ class ThreadsController extends Controller
         //
     }
     
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Thread $thread
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Thread $thread)
-    {
-        //
-    }
     
 }
