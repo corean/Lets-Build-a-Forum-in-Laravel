@@ -18,10 +18,12 @@ class ProfilesTest extends TestCase
     }
     /** @test */
     public function 사용자가_작성한_포럼글을_모두_보여준다() {
+        $this->signIn();
+        
         $user = create('App\User');
-        $thread = create('App\Thread', ['user_id' => $user->id]);
+        $thread = create('App\Thread', ['user_id' => auth()->id()]);
     
-        $this->get("/profiles/" . $user->name)
+        $this->get("/profiles/" . auth()->user()->name)
              ->assertSee($thread->title)
              ->assertSee($thread->body);
     
