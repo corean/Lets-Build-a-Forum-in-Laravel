@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
-     use RecordsActivity;
+    use RecordsActivity;
     
     protected $guarded = [];
     protected $with = ['creator', 'channel'];
@@ -21,7 +21,10 @@ class Thread extends Model
         });
         //포럼글 삭제시 댓글도 삭제
         static::deleting(function ($thread) {
-            $thread->replies()->delete();
+//            var_dump('Thread - ' . $thread->replies()->count() . ' ' . $thread->replies->count());
+//            $thread->replies()->delete();
+            $thread->replies->each->delete();
+//            var_dump('Thread(2) - ' . $thread->replies()->count(). ' ' . $thread->replies->count());
         });
     }
     

@@ -21,6 +21,11 @@ trait RecordsActivity
                 $model->recordActivity($event);
             });
         }
+        
+        static::deleting(function($model) {
+//            var_dump('RecordsActivity - ' . get_class($model));
+            $model->activities()->delete();
+        });
     }
     
     private static function getActivitiesToRecord()
