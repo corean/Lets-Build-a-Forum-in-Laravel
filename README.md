@@ -57,6 +57,23 @@ phpstorm
 
 ep.15 refactoring - filter를 통한 리펙토링 (중요)
 
+
+
+ep 32 `v-bind:attriblues="{{ $reply }}"`를 통해 라라벨 객체를 js로 넘기는것.
+
+vue 파일내에서 다른 vue 파일 호출 `flash('updated!')
+
+```javascript
+//전용으로 만들고 호출했다
+window.flash = function(message) {
+    window.events.$emit('flash', message);
+};
+```
+
+
+
+`
+
 ---
 
 2018-12-02 ~ep. 152

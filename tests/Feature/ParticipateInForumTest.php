@@ -76,4 +76,31 @@ class ParticipateInForumTest extends TestCase
         $this->assertDatabaseMissing('replies', ['body' => $reply->body]);
         
     }
+    
+    /** @test */
+    function 인증된_사용자는_댓글을_수정할_수_있음()
+    {
+        // 인증된 사용자
+        $this->signIn();
+        $reply = create('App\Reply', [ 'user_id' => auth()->id()]);
+        // 댓글 수정하기
+        $reply2 = make('App\Reply');
+        $this->patch('/replies/' . $reply->id, ['body' => $reply2->body]);
+        // 댓글이 바뀌었는지
+        $this->assertDatabaseHas('replies', [ 'id' => $reply->id, 'body' => $reply2->body]);
+    }
+    
+    /** @test */
+    function 미인증된_사용자는_댓글을_수정할_수_있음()
+    {
+        $this->withExceptionHandling();
+    
+        $reply = create('App\Reply');
+    
+        // 댓글이 바뀌었는지
+        $this->patch('/replies/' . $reply->id)->assertRedirect('login');
+        $this->signIn()->patch('/replies/' . $reply->id)->assertStatus(403);
+    }
+    
+    
 }
