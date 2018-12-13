@@ -59,7 +59,7 @@ ep.15 refactoring - filter를 통한 리펙토링 (중요)
 
 
 
-ep 32 `v-bind:attriblues="{{ $reply }}"`를 통해 라라벨 객체를 js로 넘기는것.
+ep 32 `<reply v-bind:attributes="{{ $reply }}" inline-template v-cloak>`를 통해 라라벨 객체를 js로 넘기는것.
 
 vue 파일내에서 다른 vue 파일 호출 `flash('updated!')
 
