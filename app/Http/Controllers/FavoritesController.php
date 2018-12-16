@@ -19,12 +19,19 @@ class FavoritesController extends Controller
     
     public function store(Reply $reply)
     {
-//         Favorite::create([
-//                               'user_id'        => auth()->user()->id,
-//                               'favorited_id'   => $reply->id,
-//                               'favorited_type' => get_class($reply)
-//                           ]);
         $reply->favorite();
+        if (request()->expectsJson()) {
+            return response(['status' => 'favorited!']);
+        }
+        return back();
+    }
+    
+    public function destroy(Reply $reply)
+    {
+        $reply->unfavorite();
+        if (request()->expectsJson()) {
+            return response(['status' => 'favorite cancled!']);
+        }
         return back();
     }
 }

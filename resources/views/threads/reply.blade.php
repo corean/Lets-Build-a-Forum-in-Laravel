@@ -1,4 +1,4 @@
-<reply v-bind:attributes="{{ $reply }}" inline-template v-cloak>
+<reply :attributes="{{ $reply }}" inline-template v-cloak>
     <div id="reply-{{ $reply->id }}" class="panel panel-default">
         <div class="panel-heading">
             <div class="level">
@@ -8,12 +8,16 @@
                     </a> said {{ $reply->created_at->diffForHumans() }}...
 
                 </h5>
-                <form action="/replies/{{ $reply->id }}/favorites" method="post">
+
+                <favorite :reply="{{ $reply }}"></favorite>
+                {{--
+                <form method="POST"action="/replies/{{ $reply->id }}/favorites" >
                     {{ csrf_field() }}
                     <button class="btn btn-default " {{ $reply->isFavorited() ? 'disabled' : '' }}>
                         {{ $reply->favorites_count }} {{ str_plural('favorite', $reply->favorites_count) }}
                     </button>
                 </form>
+                --}}
             </div>
         </div>
 
