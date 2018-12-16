@@ -23,7 +23,7 @@ class Thread extends Model
         static::deleting(function ($thread) {
 //            var_dump('Thread - ' . $thread->replies()->count() . ' ' . $thread->replies->count());
 //            $thread->replies()->delete();
-            $thread->replies->each->delete();
+            $thread->replies->each->delete(); //Activity 모델도 같이 업데이트하기 위해
 //            var_dump('Thread(2) - ' . $thread->replies()->count(). ' ' . $thread->replies->count());
         });
     }

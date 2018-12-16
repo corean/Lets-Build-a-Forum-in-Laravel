@@ -19,7 +19,7 @@
                         @endif
                     @endforeach
                 @empty
-                    Activities none.
+                    <p>Activities none.</p>
                 @endforelse
             </div>
         </div>

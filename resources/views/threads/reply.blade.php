@@ -9,7 +9,9 @@
 
                 </h5>
 
-                <favorite :reply="{{ $reply }}"></favorite>
+                @if (auth::check())
+                    <favorite :reply="{{ $reply }}"></favorite>
+                @endif
                 {{--
                 <form method="POST"action="/replies/{{ $reply->id }}/favorites" >
                     {{ csrf_field() }}
