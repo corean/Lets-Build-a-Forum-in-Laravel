@@ -1,16 +1,19 @@
 <script>
+    import Favorite from './Favorite.vue';
+
     export default {
-        props : ['attributes'],
+        props: ['attributes'],
+        components : { Favorite },
         data() {
             return {
-                editing : false,
-                body : this.attributes.body,
+                editing: false,
+                body: this.attributes.body,
             }
         },
         methods: {
             update() {
                 axios.patch('/replies/' + this.attributes.id, {
-                    body : this.body
+                    body: this.body
                 });
                 this.editing = false;
                 flash('Updated!');
@@ -20,8 +23,7 @@
                 $(this.$el).fadeOut(300, () => {
                     flash('deleted!');
                 });
-
-            }
+            },
         }
     }
 </script>

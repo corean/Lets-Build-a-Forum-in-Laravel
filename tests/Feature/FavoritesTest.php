@@ -32,6 +32,21 @@ class FavoritesTest extends TestCase
     }
     
     /** @test */
+    public function 로그인한_유저가_댓글에_좋아요_취소를_누를_수_있는지()
+    {
+        //유저가 좋Î아요 버튼을 보낸다
+        //데이타베이스에 저장
+        
+        $this->signIn(create('App\User', ['name' => 'JohnDoe']));
+        $reply = create('App\Reply');
+        
+        $reply->favorite(); //좋아요 생성
+        $this->delete('replies/' . $reply->id . '/favorites'); //좋아요 취소처리
+        $this->assertCount(0, $reply->favorites);
+        
+    }
+    
+    /** @test */
     public function 로그인한_유저는_해당_댓글에_한번만_좋아요를_누를수_있다()
     {
         $this->signIn(create('App\User', ['name' => 'JohnDoe']));

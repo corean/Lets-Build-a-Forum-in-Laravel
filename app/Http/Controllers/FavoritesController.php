@@ -25,6 +25,18 @@ class FavoritesController extends Controller
 //                               'favorited_type' => get_class($reply)
 //                           ]);
         $reply->favorite();
+        if (request()->expectsJson()) {
+            return response(['status' => 'favorited!']);
+        }
+        return back();
+    }
+    
+    public function destroy(Reply $reply)
+    {
+        $reply->unfavorite();
+        if (request()->expectsJson()) {
+            return response(['status' => 'favorite cancled!']);
+        }
         return back();
     }
 }
