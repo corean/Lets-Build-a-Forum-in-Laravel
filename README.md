@@ -83,13 +83,17 @@ window.flash = function(message) {
 };
 ```
 
+vue 전역 함수는 `Vue.prototype.authroize = function() {}`으로 선언. 호출은 `this.authorize()`
+
 ```vue
 <reply :attributes="{{ $reply }}" inline-template v-cloak>
 ```
 
 `:attributes`로 라라벨의 $reply(Model Reply)을 vue로 넘겨줌.
-`inline-template`으로 `<reply></reply>`태그안에 내용들로 `<template>`를 대체
+`inline-template`으로 `<reply></reply>`태그안에 내용들로 `<template>`를 대체. blade내에서 laravel의 변수를 보낼수 있음.
 v-cloak 으로 깜빡임 방지 `[v-cloak] { display:none; }` 
+
+`this.$emit('deleted', this.data.id)`로 부모한테 이벤트를 보낼때는 1단계만. 받는 것은 `@deleted="remove(index)"`
 
 
 
