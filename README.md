@@ -95,7 +95,11 @@ v-cloak 으로 깜빡임 방지 `[v-cloak] { display:none; }`
 
 `this.$emit('deleted', this.data.id)`로 부모한테 이벤트를 보낼때는 1단계만. 받는 것은 `@deleted="remove(index)"`
 
+`<new-reply endpoint="location" @created="add"></new-reply>` 
+자식vue에 받는 props 는 endpoint, 넘겨줄 값은 "location"
 
+`<new-reply :endpoint="location" @created="add"></new-reply>`
+자식 vue에서 받는 props는 endpoint, location은 this.location 의 v-bind
 
 ## Model
 

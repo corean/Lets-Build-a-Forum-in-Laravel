@@ -18,24 +18,28 @@ class RepliesController extends Controller
     /**
      * @param $channel
      * @param Thread $thread
-     * @return \Illuminate\Http\RedirectResponse
+     * @return Reply
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store($channel, Thread $thread)
     {
         $this->validate(request(), [
-            'body' => 'required'
-        ]);
-        $thread->addReply([
-                              'body'    => request('body'),
-                              'user_id' => auth()->user()->id
-                          ]);
+                'body' => 'required']
+        );
+        $reply = $thread->addReply([
+                'body'    => request('body'),
+                'user_id' => auth()->user()->id]
+        );
+        if (request()->expectsJson()) {
+            return $reply->load('owner');
+        }
         return back()->with('flash', 'Your reply has been left.');
     }
     
     public function destroy(Reply $reply)
     {
-        $this->authorize('update', $reply);
+        $this->authorize('update', $reply
+        );
         $reply->delete();
         if (request()->expectsJson()) {
             return response(['status' => 'deleted']);
@@ -47,7 +51,8 @@ class RepliesController extends Controller
     {
         //$this->validate(request(), ['body' => 'required']);
         
-        $this->authorize('update', $reply);
+        $this->authorize('update', $reply
+        );
         $reply->update(request(['body']));
     }
     
