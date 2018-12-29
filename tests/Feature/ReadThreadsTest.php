@@ -13,22 +13,16 @@ class ReadThreadsTest extends TestCase
     public function 사용자가_포럼글_목록을_읽을수_있는지()
     {
         $thread = create('App\Thread');
-        $this->get('/threads')->assertSee($thread->title);
-    }
-    
-    /** @test  */
-    public function 사용자가_포럼글_하나를_읽을수_있는지()
-    {
-        $thread = create('App\Thread');
-        $this->get($thread->path())->assertSee($thread->title);
+        $this->get('/threads')
+             ->assertSee($thread->title);
     }
     
     /** @test */
-    public function 사용자가_포럼글에_대한_댓글을_읽을수_있는지()
+    public function 사용자가_포럼글_하나를_읽을수_있는지()
     {
         $thread = create('App\Thread');
-        $reply = create('App\Reply', ['thread_id' => $thread->id]);
-        $this->get($thread->path())->assertSee($reply->body);
+        $this->get($thread->path())
+             ->assertSee($thread->title);
     }
     
     /** @test */
@@ -39,37 +33,49 @@ class ReadThreadsTest extends TestCase
         $threadNotInChannel = create('App\Thread');
         
         $this->get('/threads/' . $channel->slug)
-            ->assertSee($threadInChannel->title)
-            ->assertDontSee($threadNotInChannel->title);
+             ->assertSee($threadInChannel->title)
+             ->assertDontSee($threadNotInChannel->title);
     }
     
     /** @test */
     public function 사용자가_다른_사용자명으로_검색()
     {
         $this->signIn(create('App\User', ['name' => 'JohnDoe']));
-       
+        
         $threadByJohn = create('App\Thread', ['user_id' => auth()->user()->id]);
         $threadNotByJohn = create('App\Thread');
         
         $this->get('/threads?by=JohnDoe')
-            ->assertSee($threadByJohn->title)
-            ->assertDontSee($threadNotByJohn->title);
+             ->assertSee($threadByJohn->title)
+             ->assertDontSee($threadNotByJohn->title);
     }
     
     /** @test */
     public function 사용자가_포럼글을_댓글순으로_필터링할_수_있는지()
     {
         $threadWithTwoReply = create('App\Thread');
-        create('App\Reply', [ 'thread_id' => $threadWithTwoReply->id], 2);
-    
+        create('App\Reply', ['thread_id' => $threadWithTwoReply->id], 2);
+        
         $threadWithThreeReply = create('App\Thread');
-        create('App\Reply', [ 'thread_id' => $threadWithThreeReply->id], 3);
-    
+        create('App\Reply', ['thread_id' => $threadWithThreeReply->id], 3);
+        
         $threadWithNoneReply = create('App\Thread');
         
         $response = $this->getJson('/threads?popular=1')->json();
-//        dd($response);
-        $this->assertEquals([3,2,0], array_column($response, 'replies_count'));
+        //dd($response);
+        $this->assertEquals([3, 2, 0, 0], array_column($response, 'replies_count'));
+    }
+    
+    /** @test */
+    public function 사용자가_댓글이_없는_포럼글_필터()
+    {
+        $thread = create('App\Thread');
+        create('App\Reply', ['thread_id' => $thread->id]);
+        
+        $response = $this->getJson('threads?unanswered=1')
+                         ->json();
+        $this->assertCount(1, $response);
+        
     }
     
     /** @test */
@@ -79,8 +85,16 @@ class ReadThreadsTest extends TestCase
         $reply = create('App\Reply', ['thread_id' => $thread->id], 2);
         
         $response = $this->getJson($thread->path() . '/replies')->json();
-        
-        $this->assertCount(1, $response['data']);
+
+//        dd($response);
+        $this->assertCount(2, $response['data']);
         $this->assertEquals(2, $response['total']);
     }
+    
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->thread = create('App\Thread');
+    }
+    
 }

@@ -32,6 +32,7 @@
             fetch(page) {
                 // console.log(page);
                 axios.get(this.url(page)).then(this.refresh);
+                window.scrollTo(0,0);
             },
             url(page) {
                 if (!page) {

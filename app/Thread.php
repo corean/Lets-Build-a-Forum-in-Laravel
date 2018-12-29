@@ -21,11 +21,12 @@ class Thread extends Model
         });
         //포럼글 삭제시 댓글도 삭제
         static::deleting(function ($thread) {
-//            var_dump('Thread - ' . $thread->replies()->count() . ' ' . $thread->replies->count());
-//            $thread->replies()->delete();
+            //            var_dump('Thread - ' . $thread->replies()->count() . ' ' . $thread->replies->count());
+            //            $thread->replies()->delete();
             $thread->replies->each->delete(); //Activity 모델도 같이 업데이트하기 위해
-//            var_dump('Thread(2) - ' . $thread->replies()->count(). ' ' . $thread->replies->count());
-        });
+            //            var_dump('Thread(2) - ' . $thread->replies()->count(). ' ' . $thread->replies->count());
+        }
+        );
     }
     
     public function path()
@@ -35,7 +36,7 @@ class Thread extends Model
     
     public function replies()
     {
-//        return $this->hasMany(Reply::class)->withCount('replies');
+        //        return $this->hasMany(Reply::class)->withCount('replies');
         return $this->hasMany(Reply::class);
     }
     

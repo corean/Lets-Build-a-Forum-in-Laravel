@@ -15,6 +15,7 @@ http://laracasts.com/series/lets-build-a-forum-with-laravel
     - `$this->expectException()` : 해당 예외가 발생하는지
     - `$this→assertSessionHasErrors('title')` : validation error check
     - `assertDatabaseHas($table, array)` : $table 내용에 array의 값들이 있는지
+    - `$this->assertEquals(1, $thread->fresh()->replies_count);` fresh()는 데이타 강제 fresh시킴
 
 - Unit
     - 해당 모델인지, 관계는 잘 맺어져있는지
@@ -124,7 +125,8 @@ Model Boot Method
 //General Model
 protected static function boot()
 {
-    parent::boot(); //글로벌 스코프 확장
+    parent::boot(); 
+    //글로벌 스코프 확장
     static::addGlobalScope('replies_count', function (Builder $builder) {
         $builder->withCount('replies');
     });
