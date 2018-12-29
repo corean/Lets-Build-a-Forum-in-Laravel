@@ -15,10 +15,7 @@ class Thread extends Model
     protected static function boot()
     {
         parent::boot();
-        //글로벌 스코프 확장
-        static::addGlobalScope('replies_count', function (Builder $builder) {
-            $builder->withCount('replies');
-        });
+        
         //포럼글 삭제시 댓글도 삭제
         static::deleting(function ($thread) {
             //            var_dump('Thread - ' . $thread->replies()->count() . ' ' . $thread->replies->count());
@@ -68,5 +65,23 @@ class Thread extends Model
     public function scopeFilter($query, $filter)
     {
         return $filter->apply($query);
+    }
+    
+    public function subscribe($userId = null)
+    {
+        $this->subscriptions()
+             ->create(['user_id' => $userId ?: auth()->id()]);
+    }
+    
+    public function unsubscribe($userId = null)
+    {
+        $this->subscriptions()
+             ->where(['user_id' => $userId ?: auth()->id()])
+             ->delete();
+    }
+    
+    public function subscriptions()
+    {
+        return $this->hasMany(ThreadSubscription::class);
     }
 }
