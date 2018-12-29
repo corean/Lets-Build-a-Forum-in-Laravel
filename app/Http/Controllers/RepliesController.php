@@ -12,16 +12,20 @@ class RepliesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => 'index']);
     }
     
+    public function index($channelId , Thread $thread)
+    {
+        return $thread->replies()->paginate(1);
+    }
     /**
      * @param $channel
      * @param Thread $thread
      * @return Reply
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store($channel, Thread $thread)
+    public function store($channelId, Thread $thread)
     {
         $this->validate(request(), [
                 'body' => 'required']

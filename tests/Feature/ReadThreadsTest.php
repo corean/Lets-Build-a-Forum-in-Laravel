@@ -71,4 +71,16 @@ class ReadThreadsTest extends TestCase
 //        dd($response);
         $this->assertEquals([3,2,0], array_column($response, 'replies_count'));
     }
+    
+    /** @test */
+    public function 사용자가_주어진_포럼글의_댓글을_요청할_수_있는지()
+    {
+        $thread = create('App\Thread');
+        $reply = create('App\Reply', ['thread_id' => $thread->id], 2);
+        
+        $response = $this->getJson($thread->path() . '/replies')->json();
+        
+        $this->assertCount(1, $response['data']);
+        $this->assertEquals(2, $response['total']);
+    }
 }

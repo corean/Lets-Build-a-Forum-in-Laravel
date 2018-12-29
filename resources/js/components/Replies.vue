@@ -1,38 +1,50 @@
 <template>
     <div>
         <div v-for="(item, index) in items" :key="item.id">
-            <reply :data="item"  @deleted="remove(index)"></reply>
+            <reply :data="item" @deleted="remove(index)"></reply>
         </div>
-        <new-reply :endpoint="endpoint" @created="add"></new-reply>
+
+        <paginator :data-set="dataSet" @changed="fetch"></paginator>
+
+        <new-reply @created="add"></new-reply>
     </div>
 </template>
 
 <script>
-    import newReply from '../components/newReply.vue';
-    import Reply from '../components/Reply.vue';
+    import newReply from './newReply.vue';
+    import Reply from './Reply.vue';
+    import collection from '../mixins/collection.js';
 
     export default {
         name: "replies",
-        components : { Reply, newReply },
-        props : [ 'data' ],
+        components: {Reply, newReply},
+        mixins: [collection],
         data() {
             return {
-                items : this.data,
-                endpoint: location.pathname + '/replies'
+                dataSet: false,
             }
         },
+        created() {
+            // let page = location.search.match(/page=(\d+)/)[1];
+            this.fetch();
+        },
         methods: {
-            remove(index) {
-                // console.log('remove', index);
-                this.items.splice(index, 1);
-                this.$emit('remove');
-                flash('Reply was deleted!');
+            fetch(page) {
+                // console.log(page);
+                axios.get(this.url(page)).then(this.refresh);
             },
-            add(reply) {
-                // console.log('reply', reply);
-                this.items.push(reply);
-                this.$emit('add');
-            }
+            url(page) {
+                if (!page) {
+                    let query = location.search.match(/page=(\d+)/);
+                    page = query ? query[1] : 1;
+                }
+                return `${location.pathname}/replies?page=${page}`;
+            },
+            refresh({data}) {
+                this.dataSet = data;
+                this.items = data.data;
+            },
+
         }
     }
 </script>

@@ -12,7 +12,6 @@
                                 <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a> posted:
                             {{ $thread->title }}
                             </span>
-
                                 @can('update', $thread)
                                     <form action="{{ $thread->path() }}" method="POST">
                                         {{ csrf_field() }}
@@ -30,7 +29,7 @@
                         </div>
                     </div>
 
-                    <replies :data="{{ $thread->replies }}" @remove="repliesCount--" @add="repliesCount++"></replies>
+                    <replies @remove="repliesCount--" @add="repliesCount++"></replies>
 
                 </div>
 
@@ -40,7 +39,8 @@
                             <p>
                                 This thread was published {{ $thread->created_at->diffForHumans() }} by
                                 <a href="#">{{ $thread->creator->name }}</a>, and currently
-                                has <span v-text="repliesCount"></span> {{ str_plural('comment', $thread->replies_count) }}.
+                                has <span v-text="repliesCount"></span>
+                                {{ str_plural('comment', $thread->replies_count) }}.
                             </p>
                         </div>
                     </div>
